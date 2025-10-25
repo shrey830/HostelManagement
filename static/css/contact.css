@@ -1,0 +1,156 @@
+/* Container */
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 15px;
+    background: url("/static/images/background/contactback.jpg");
+    min-height: 80vh;
+}
+
+/* Form */
+.contact-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Heading */
+.contact-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Input fields */
+.form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #444;
+}
+
+.form-group i {
+    margin-right: 6px;
+    color: #007bff;
+}
+
+/* Inputs and textarea */
+.form-group input,
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s ease;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 6px rgba(0,123,255,0.3);
+}
+
+/* Textarea */
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Button */
+.btns {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #007bff;
+    color: #fff;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btns i {
+    margin-right: 5px;
+}
+
+.btns:hover {
+    background: #0056b3;
+}
+
+/* Center alignment */
+.text-center {
+    text-align: center;
+}
+
+
+  
+/* Map Section */
+.map-section {
+  width: 100%;
+  max-width: 800px;
+  margin: 90px auto;
+  text-align: center;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-title h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title h2::after {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 3px;
+  background-color: #c9a453;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section-title p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 20px;
+}
+
+.map-container {
+  width: 100%;
+  height: 450px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 5px solid #fff;
+  transition: transform 0.3s ease;
+}
+
+.map-container:hover {
+  transform: translateY(-5px);
+}
+    
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
