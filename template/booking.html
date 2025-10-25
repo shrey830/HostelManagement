@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel Rooms</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .room-card {
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .room-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .room-card img {
+      height: 160px;
+      object-fit: cover;
+      width: 100%;
+    }
+    .room-card h5 {
+      font-weight: 700;
+      margin-top: 10px;
+    }
+    .room-card p {
+      margin: 0;
+      color: #6c757d;
+    }
+    .btn-custom {
+      border-radius: 8px;
+      font-weight: 600;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <h2 class="text-center mb-4 fw-bold">🏨 Available Rooms</h2>
+  <div class="row g-4">
+
+    {% for room in rooms %}
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <div class="card room-card shadow-sm h-100">
+        
+        <!-- Dynamic Room Image -->
+        {% if room.1 == "Single Sharing" %}
+          <img src="/static/images/single.jpg" alt="Single Sharing Room">
+        {% elif room.1 == "Two Sharing" %}
+          <img src="/static/images/double.jpg" alt="Two Sharing Room">
+        {% elif room.1 == "Three Sharing" %}
+          <img src="/static/images/triple.jpg" alt="Three Sharing Room">
+        {% else %}
+          <img src="/static/images/quad.jpg" alt="Four Sharing Room">
+        {% endif %}
+        
+        <div class="card-body text-center">
+          <!-- Room Number -->
+          <h5>Room {{ room.0 }}</h5>
+          <!-- Sharing Type -->
+          <p>{{ room.1 }}</p>
+
+          {% if room.2 == 'book' %}
+            <!-- Book Now -->
+            <a href="{% url 'confirmbooking' %}?room_number={{ room.0 }}" 
+               class="btn btn-success w-100 btn-custom">Book Now</a>
+          {% else %}
+            <!-- Select Room -->
+            <button class="btn btn-primary w-100 btn-custom" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#bedModal{{ room.0 }}">
+              Select Room
+            </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Bed Selection -->
+    {% if room.2 == 'select' %}
+    <div class="modal fade" id="bedModal{{ room.0 }}" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">🛏 Select Bed (Room {{ room.0 }})</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-3 justify-content-center">
+              {% if room.1 == "Two Sharing" %}
+                {% for bed in "12"|make_list %}
+                  <div class="col-md-6">
+                    <div class="card text-center shadow-sm p-3">
+                      <img src="/static/images/bed.png" class="mx-auto" style="height:70px" alt="Bed {{ bed }}">
+                      <h6 class="mt-2">Bed {{ bed }}</h6>
+                      <p>₹1000/month</p>
+                      <a href="{% url 'confirmbooking' %}?room_number={{ room.0 }}&bed_number={{ bed }}" 
+                         class="btn btn-success btn-sm">Select</a>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% elif room.1 == "Three Sharing" %}
+                {% for bed in "123"|make_list %}
+                  <div class="col-md-4">
+                    <div class="card text-center shadow-sm p-3">
+                      <img src="/static/images/bed.png" class="mx-auto" style="height:70px" alt="Bed {{ bed }}">
+                      <h6 class="mt-2">Bed {{ bed }}</h6>
+                      <p>₹1000/month</p>
+                      <a href="{% url 'confirmbooking' %}?room_number={{ room.0 }}&bed_number={{ bed }}" 
+                         class="btn btn-success btn-sm">Select</a>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% elif room.1 == "Four Sharing" %}
+                {% for bed in "1234"|make_list %}
+                  <div class="col-md-3">
+                    <div class="card text-center shadow-sm p-3">
+                      <img src="/static/images/bed.png" class="mx-auto" style="height:70px" alt="Bed {{ bed }}">
+                      <h6 class="mt-2">Bed {{ bed }}</h6>
+                      <p>₹1000/month</p>
+                      <a href="{% url 'confirmbooking' %}?room_number={{ room.0 }}&bed_number={{ bed }}" 
+                         class="btn btn-success btn-sm">Select</a>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Website{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Font Awesome -->    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Default Theme (Dark) */
+        body {
+            background-color: #33343a;
+            color: #ffffff;
+            transition: all 0.3s ease-in-out;
+        }
+        a {
+            color: #ffcc00;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #ffa500;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            background-color: #ffffff;
+            color: #33343a;
+        }
+        body.light-theme a {
+            color: #0056b3;
+        }
+        body.light-theme a:hover {
+            color: #ff8800;
+        }
+
+        /* Navbar Styling */
+        .navbar-custom {
+            /* background: linear-gradient(90deg, #6a79e6, #8b50d8); */
+            background: linear-gradient(90deg, #33343a, #3b393f);
+        }
+        .navbar-custom .nav-link, 
+        .navbar-custom .navbar-brand, 
+        .navbar-custom .btn {
+            color: #e5e5e5 !important;
+            font-weight: 500;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #fff !important;
+        }
+        body.light-theme .navbar-custom {
+            background: linear-gradient(90deg, #eaeaea, #d4d4d4);
+        }
+        body.light-theme .navbar-custom .nav-link,
+        body.light-theme .navbar-custom .navbar-brand,
+        body.light-theme .navbar-custom .btn {
+            /* color: #000 !important; */
+            color: #33343a !important;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: #1c1c1c;
+            color: #fff;
+            padding: 50px 0;
+        }
+        .footer h5 {
+            color: #ff8800;
+            margin-bottom: 20px;
+        }
+        .footer a {
+            color: #ccc;
+        }
+        .footer a:hover {
+            color: #ff8800;
+        }
+        body.light-theme .footer {
+            background-color: #f5f5f5;
+            color: #000;
+        }
+        body.light-theme .footer a {
+            color: #333;
+        }
+        body.light-theme .footer a:hover {
+            color: #ff8800;
+        }
+
+        /* Social Icons */
+        .social-icons a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border-radius: 50%;
+            background: #333;
+            margin-right: 10px;
+            color: #fff;
+            transition: 0.3s;
+        }
+        .social-icons a:hover {
+            background: #ff8800;
+        }
+        body.light-theme .social-icons a {
+            background: #ddd;
+            color: #000;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.3rem;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container-fluid">
+            <!-- Left Side: Logo + Title -->
+            <a class="navbar-brand d-flex align-items-center fw-bold" href="{% url 'profile' %}">
+                <i class="bi bi-building me-2"></i> Hostel Management
+            </a>
+
+            <!-- Navbar Toggler for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Center Menu -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav gap-4">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">
+                            <i class="bi bi-house-door"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">
+                            <i class="bi bi-info-circle"></i> About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'facilities' %}">
+                            <i class="bi bi-bell"></i> Facilities
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">
+                            <i class="bi bi-envelope"></i> Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Side: Auth Buttons -->
+            <div class="d-flex align-items-center gap-2">
+                <!-- Theme Toggle -->
+                <i class="bi bi-moon theme-toggle text-light" id="themeToggle"></i>
+                
+                {% if request.session.hostel_user_id %}
+                    <span class="navbar-text text-white me-2">
+                        <i class="bi bi-person-circle"></i> {{ request.session.hostel_user_name }}
+                    </span>
+                    <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-box-arrow-in-right"></i> Login
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-light btn-sm">
+                        <i class="bi bi-person-plus"></i> Sign Up
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="{% block container_class %}container mt-5 pt-5{% endblock %}">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- About -->
+                <div class="col-md-4">
+                    <h5><span style="color:#ff8800;">Hostel</span>Management</h5>
+                    <p>We aim to ensure that Student Enjoy and to make Study and spent have a good time in the hostel.</p>
+                    <p>Follow Us</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Explore -->
+                <div class="col-md-4">
+                    <h5>Explore</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'facilities' %}">Facelities</a></li>
+                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="col-md-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="bi bi-geo-alt"></i> Ahmedabad, Gujarat</p>
+                    <p><i class="bi bi-telephone"></i> (91) 9016488753</p>
+                    <p><i class="bi bi-envelope"></i> hostelmanagement@gmail.com</p>
+                    <p><i class="bi bi-clock"></i> Week Days: 09.00 to 18.00<br>Sunday: Closed</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap + Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggle = document.getElementById("themeToggle");
+        const body = document.body;
+
+        // Load saved theme
+        if (localStorage.getItem("theme") === "light") {
+            body.classList.add("light-theme");
+            themeToggle.classList.remove("bi-moon");
+            themeToggle.classList.add("bi-sun");
+        }
+
+        themeToggle.addEventListener("click", () => {
+            body.classList.toggle("light-theme");
+            if (body.classList.contains("light-theme")) {
+                localStorage.setItem("theme", "light");
+                themeToggle.classList.remove("bi-moon");
+                themeToggle.classList.add("bi-sun");
+            } else {
+                localStorage.setItem("theme", "dark");
+                themeToggle.classList.remove("bi-sun");
+                themeToggle.classList.add("bi-moon");
+            }
+        });
+    </script>
+</body>
+</html>

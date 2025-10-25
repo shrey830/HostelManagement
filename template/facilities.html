@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facilities</title>
+    <link rel="stylesheet" href="{% static 'css/facilities.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+<div class="facilities-container">
+    <h1 style="font-family:cursive;">Facilities</h1>
+    <div class="button-grid">
+        <a href="{% url 'facilities1' 'room1' %}" class="facility-btn btn-1"><span>1 Sharing Room</span><i class="fa-solid fa-bed"></i></a>
+        <a href="{% url 'facilities1' 'room2' %}" class="facility-btn btn-2"><span>2 Sharing Room</span><i class="fa-solid fa-bed"></i></a>
+        <a href="{% url 'facilities1' 'room3' %}" class="facility-btn btn-3"><span>3 Sharing Room</span><i class="fa-solid fa-bed"></i></a>
+        <a href="{% url 'facilities1' 'room4' %}" class="facility-btn btn-4"><span>4 Sharing Room</span><i class="fa-solid fa-bed"></i></a>
+        <!-- <a class="facility-btn btn-5"><span>5 Sharing Room</span><i class="fa-solid fa-bed"></i></a> -->
+        <a href="{% url 'facilities1' 'gym' %}" class="facility-btn btn-gym"><span>Gym</span><i class="fa-solid fa-dumbbell"></i></a>
+        <a  class="facility-btn btn-temple"><span>Temple</span><i class="fa-solid fa-church"></i></a>
+        <a  class="facility-btn btn-medical"><span>Medical</span><i class="fa-solid fa-briefcase-medical"></i></a>
+        <a href="{% url 'facilities1' 'food' %}" class="facility-btn btn-food"><span>Food</span><i class="fa-solid fa-utensils"></i></a>
+        <a  class="facility-btn btn-wifi"><span>Wi-Fi</span><i class="fa-solid fa-wifi"></i></a>
+        <a href="{% url 'facilities1' 'library' %}" class="facility-btn btn-library"><span>Library</span><i class="fa-solid fa-book"></i></a>
+    </div>
+</div>
+
+
+</body>
+</html>
+{% endblock %}

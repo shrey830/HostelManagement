@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hostel Booking Form</title>
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { background: #f5f7fb; }
+    .card { border: 0; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+    .section-title { font-weight: 700; font-size: 1.1rem; }
+    .required::after { content: " *"; color: #dc3545; }
+  </style>
+</head>
+<body>
+  <div class="container py-4 py-md-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10">
+        <div class="card p-3 p-md-4">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-house-door me-2" viewBox="0 0 16 16"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5V14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7.5a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/><path d="M13 2.5v3.293l1 1V14a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1V6.793l1-1V2.5a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.293L8 2.293z"/></svg>
+              <h1 class="h4 m-0">Hostel Booking Form</h1>
+            </div>
+
+            <!-- NOTE (Django): include {% csrf_token %} inside the form when using in a Django template -->
+            <form id="bookingForm" class="needs-validation" novalidate method="post" action="">
+              {% csrf_token %}
+              <!-- PERSONAL DETAILS -->
+              <div class="mb-4">
+                <div class="section-title">👤 Personal Details</div>
+                <div class="row g-3 mt-1">
+                  <div class="col-md-6">
+                    <label for="firstName" class="form-label required">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="first_name" placeholder="John" required />
+                    <div class="invalid-feedback">Please enter your first name.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="lastName" class="form-label required">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="last_name" placeholder="Doe" required />
+                    <div class="invalid-feedback">Please enter your last name.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select id="gender" name="gender" class="form-select">
+                      <option value="" selected>— Select —</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                      <option>Prefer not to say</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="dob" name="dob" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONTACT -->
+              <div class="mb-4">
+                <div class="section-title">📞 Contact</div>
+                <div class="row g-3 mt-1">
+                  <div class="col-md-6">
+                    <label for="phone" class="form-label required">Contact Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="10–15 digits" pattern="^[0-9]{10,15}$" required />
+                    <div class="invalid-feedback">Enter a valid phone number (10–15 digits).</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="email" class="form-label required">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" required />
+                    <div class="invalid-feedback">Enter a valid email address.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BOOKING DETAILS -->
+              <div class="mb-4">
+                <div class="section-title">🏠 Booking Details</div>
+                <div class="row g-3 mt-1">
+                  <div class="col-md-6">
+                    <label for="checkIn" class="form-label required">Check-in Date</label>
+                    <input type="date" class="form-control" id="checkIn" name="check_in" required />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="checkOut" class="form-label required">Check-out Date</label>
+                    <input type="date" class="form-control" id="checkOut" name="check_out" required />
+                  </div>
+
+                  <!-- Auto-selected Room Type -->
+                  <div class="col-md-6">
+                    <label for="roomType" class="form-label required">Room Type</label>
+                    <input type="text" class="form-control" id="roomType" name="room_type" 
+                          value="{{ room_type }}" readonly />
+                  </div>
+
+                  <!-- Auto-selected Room Number -->
+                  <div class="col-md-6">
+                    <label for="roomNumber" class="form-label required">Room Number</label>
+                    <input type="text" class="form-control" id="roomNumber" name="room_number" 
+                          value="{{ room_number }}" readonly />
+                  </div>
+
+                  <!-- New: Room Bed Number -->
+                  <div class="col-md-6">
+                    <label for="bedNumber" class="form-label required">Bed Number</label>
+                    <input type="text" class="form-control" id="bedNumber" name="bed_number" 
+                           value="{{ bed_number }}" readonly />
+                  </div>
+                </div>
+              </div>
+
+              <!-- PAYMENT -->
+              <div class="mb-4">
+                <div class="section-title">💳 Payment</div>
+                <div class="row g-3 mt-1">
+                  <div class="col-md-6">
+                    <label for="paymentMethod" class="form-label required">Payment Method</label>
+                    <select id="paymentMethod" name="payment_method" class="form-select" required>
+                      <option value="cash" selected>Cash</option>
+                      <option value="online" disabled>Online Banking</option>
+                      <option value="card" disabled>Card</option>
+                      <option value="upi" disabled>UPI</option>
+                      <option value="wallet" disabled>Wallet</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- PAYMENT & ID -->
+              <div class="mb-4">
+                <div class="section-title">💳 Payment & ID Proof</div>
+                <div class="row g-3 mt-1">
+                  <div class="col-md-6">
+                    <label for="idType" class="form-label required">ID Type</label>
+                    <select id="idType" name="id_type" class="form-select" required>
+                      <option value="" selected>— Select —</option>
+                      <option>Passport</option>
+                      <option>Aadhaar</option>
+                      <option>Driver's License</option>
+                      <option>Other</option>
+                    </select>
+                    <div class="invalid-feedback">Please choose an ID type.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="idNumber" class="form-label required">ID Number</label>
+                    <input type="text" class="form-control" id="idNumber" name="id_number" minlength="4" maxlength="32" required />
+                    <div class="invalid-feedback">Enter a valid ID number.</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="paymentMethod" class="form-label required">Payment Method</label>
+                    <select id="paymentMethod" name="payment_method" class="form-select" required>
+                      <option value="" selected>— Select —</option>
+                      <option value="online">Online Banking / NetBanking</option>
+                      <option value="card">Credit / Debit Card</option>
+                      <option value="upi">UPI</option>
+                      <option value="wallet">Wallet</option>
+                      <option value="pay_on_arrival">Pay on Arrival</option>
+                    </select>
+                    <div class="invalid-feedback">Please choose a payment method.</div>
+                  </div>
+                  <div class="col-md-6" id="paymentRefWrap">
+                    <label for="paymentRef" class="form-label required" id="paymentRefLabel">Payment Reference</label>
+                    <input type="text" class="form-control" id="paymentRef" name="payment_reference" placeholder="Transaction/UPI ID" />
+                    <div class="invalid-feedback">Please provide a payment reference.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ADDITIONAL INFO -->
+              <div class="mb-4">
+                <div class="section-title">📌 Additional / Optional Information</div>
+                <div class="row g-3 mt-1">
+                  <div class="col-12">
+                    <label for="specialRequests" class="form-label">Special Requests</label>
+                    <textarea id="specialRequests" name="special_requests" class="form-control" rows="3" placeholder="Lower bunk, near window, accessibility needs, etc."></textarea>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="emgName" class="form-label">Emergency Contact Name</label>
+                    <input type="text" class="form-control" id="emgName" name="emergency_contact_name" />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="emgPhone" class="form-label">Emergency Contact Phone</label>
+                    <input type="tel" class="form-control" id="emgPhone" name="emergency_contact_phone" pattern="^[0-9]{10,15}$" placeholder="10–15 digits" />
+                    <div class="invalid-feedback">Enter a valid phone number (10–15 digits).</div>
+                  </div>
+                  <div class="col-12">
+                    <label for="address" class="form-label">Address (optional)</label>
+                    <textarea id="address" name="address" class="form-control" rows="2"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONSENT -->
+              <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" value="1" id="terms" required />
+                <label class="form-check-label required" for="terms">I agree to the hostel's terms, house rules, and privacy policy.</label>
+                <div class="invalid-feedback">You must accept before submitting.</div>
+              </div>
+
+              <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Submit Booking</button>
+                <button class="btn btn-outline-secondary" type="reset">Reset</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- helpers ---
+    const todayISO = () => new Date().toISOString().split('T')[0];
+
+    // DOM refs
+    const checkIn = document.getElementById('checkIn');
+    const checkOut = document.getElementById('checkOut');
+    const dob = document.getElementById('dob');
+    const paymentMethod = document.getElementById('paymentMethod');
+    const paymentRefWrap = document.getElementById('paymentRefWrap');
+    const paymentRef = document.getElementById('paymentRef');
+    const paymentRefLabel = document.getElementById('paymentRefLabel');
+
+    // Set initial min/max dates
+    window.addEventListener('DOMContentLoaded', () => {
+      const today = todayISO();
+      checkIn.min = today;
+      checkOut.min = today;
+      dob.max = today; // optional: collect only valid DOBs in the past
+      togglePaymentRef();
+    });
+
+    // Ensure checkout is after checkin
+    checkIn.addEventListener('change', () => {
+      if (checkIn.value) {
+        const inDate = new Date(checkIn.value);
+        const nextDay = new Date(inDate.getTime() + 24*60*60*1000);
+        const nextDayISO = nextDay.toISOString().split('T')[0];
+        checkOut.min = nextDayISO; // must be at least the next day
+        if (checkOut.value && checkOut.value < nextDayISO) {
+          checkOut.value = nextDayISO;
+        }
+      }
+    });
+
+    // Payment reference toggle based on method
+    function togglePaymentRef() {
+      const method = paymentMethod.value;
+      const needsRef = method && method !== 'pay_on_arrival';
+      paymentRefWrap.style.display = needsRef ? 'block' : 'none';
+      paymentRef.required = needsRef;
+      paymentRefLabel.classList.toggle('required', needsRef);
+      if (!needsRef) paymentRef.value = '';
+    }
+    paymentMethod.addEventListener('change', togglePaymentRef);
+
+    // Bootstrap validation
+    (function () {
+      'use strict'
+      const form = document.getElementById('bookingForm');
+      form.addEventListener('submit', function (event) {
+        // Custom: ensure checkout > checkin
+        if (checkIn.value && checkOut.value && (new Date(checkOut.value) <= new Date(checkIn.value))) {
+          checkOut.setCustomValidity('Check-out must be after check-in.');
+        } else {
+          checkOut.setCustomValidity('');
+        }
+
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
